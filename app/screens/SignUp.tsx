@@ -16,28 +16,28 @@ import { NavigationProp } from '@react-navigation/native';
 import { getDatabase, ref, set } from 'firebase/database';
 
 const SignUp: React.FC<{ navigation: NavigationProp<any> }> = ({ navigation }) => {
-    const db = getDatabase(FIREBASE_APP);
-    const dbRef = ref(db, 'users');
-    const userData = {
-        name: String,
-        email: String,
-        password: String,
-        gender: String,
-        phone: Number
-    };
+    // const db = getDatabase(FIREBASE_APP);
+    // const dbRef = ref(db, 'users');
+    // const userData = {
+    //     name: String,
+    //     email: String,
+    //     password: String,
+    //     gender: String,
+    //     phone: Number
+    // };
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const auth = FIREBASE_AUTH;
 
-    set(dbRef, userData)
-        .then(() => {
-            console.log('Data added or updated in Firebase Database');
-        })
-        .catch((error) => {
-            console.error('Error adding or updating data:', error);
-        });
+    // set(dbRef, userData)
+    //     .then(() => {
+    //         console.log('Data added or updated in Firebase Database');
+    //     })
+    //     .catch((error) => {
+    //         console.error('Error adding or updating data:', error);
+    //     });
 
     const signup = async () => {
         setLoading(true);
