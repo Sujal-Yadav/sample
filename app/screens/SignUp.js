@@ -1,35 +1,52 @@
 import {
     View,
-    Text,
     SafeAreaView,
-    TextInput,
-    TouchableOpacity,
+    Text,
     StyleSheet,
     ActivityIndicator,
-    Button,
-    Image,
+    TextInput,
+    TouchableOpacity,
     KeyboardAvoidingView,
 } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from "react";
-import { FIREBASE_AUTH } from "../../FirebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { FIREBASE_APP, FIREBASE_AUTH } from "../../FirebaseConfig";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { NavigationProp } from '@react-navigation/native';
+import { getDatabase, ref, set } from 'firebase/database';
 
+const SignUp = ({ navigation }) => {
+    // const db = getDatabase(FIREBASE_APP);
+    // const dbRef = ref(db, 'users');
+    // const userData = {
+    //     name: String,
+    //     email: String,
+    //     password: String,
+    //     gender: String,
+    //     phone: Number
+    // };
 
-const Login: React.FC<{ navigation: NavigationProp<any> }> = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const auth = FIREBASE_AUTH;
 
-    const signIn = async () => {
+    // set(dbRef, userData)
+    //     .then(() => {
+    //         console.log('Data added or updated in Firebase Database');
+    //     })
+    //     .catch((error) => {
+    //         console.error('Error adding or updating data:', error);
+    //     });
+
+    const signup = async () => {
         setLoading(true);
         try {
-            const response = await signInWithEmailAndPassword(auth, email, password);
-        } catch (error: any) {
+            const response = await createUserWithEmailAndPassword(auth, email, password);
+            alert("Check your emails!");
+        } catch (error) {
             console.log(error);
-            alert("Sign in failed: " + error.message);
+            alert("Sign up failed: " + error.message);
         } finally {
             setLoading(false);
         }
@@ -37,24 +54,25 @@ const Login: React.FC<{ navigation: NavigationProp<any> }> = ({ navigation }) =>
 
     return (
         <SafeAreaView style={styles.container}>
-            <KeyboardAvoidingView behavior='padding'>
+            <KeyboardAvoidingView>
                 {/* <View>
                     <TouchableOpacity onPress={() => { navigation.goBack() }} style={styles.backButton}>
                         <Ionicons name="arrow-back" style={styles.arrow} size={24} color="black" />
                         <Text style={styles.back}>Back</Text>
                     </TouchableOpacity>
                 </View> */}
-                <Image source={require('../../assets/env2.png')} style={styles.env2} />
-                <Text style={styles.heading}>Welcome Back Saathi!</Text>
+                <Text style={styles.heading}>Create Account With Email</Text>
                 <View style={styles.inputWrapper}>
+                    <Text style={styles.inpText}>Your Email:</Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="Email"
+                        placeholder="example@gmail.com"
                         onChangeText={(email) => setEmail(email)}
                     />
+                    <Text style={styles.inpText}>Choose Password:</Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="Password" value={password}
+                        placeholder="********" value={password}
                         onChangeText={(password) => setPassword(password)}
                         secureTextEntry={true}
                     />
@@ -64,19 +82,16 @@ const Login: React.FC<{ navigation: NavigationProp<any> }> = ({ navigation }) =>
                 ) : (
                     <>
                         <View style={styles.buttonWrapper}>
-                            <TouchableOpacity
-                                style={styles.appButtonContainer1}
-                                onPress={ signIn }
-                            >
-                                <Text style={styles.appButtonText}>Login</Text>
+                            <TouchableOpacity style={styles.appButtonContainer1}
+                                onPress={() => {signup, navigation.navigate('SurveyPage')}}>
+                                <Text style={styles.appButtonText}>Sign up with email</Text>
                             </TouchableOpacity>
-
                             <View style={styles.loginOption}>
-                                <Text style={styles.logInText}>Don't have an account?</Text>
+                                <Text style={styles.logInText}>Already Have an account? </Text>
                                 <TouchableOpacity
                                     style={styles.login}
-                                    onPress={() => navigation.navigate("SignUp")}>
-                                    <Text style={styles.signup}>Sign Up</Text>
+                                    onPress={() => navigation.navigate("Login")}>
+                                    <Text style={styles.login}>Log in</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -96,23 +111,25 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         color: "green",
         paddingLeft: 3,
-        marginLeft: 4,
+        marginLeft: 12,
         borderRadius: 10,
         // width: 250,
         borderWidth: 2,
         borderColor: '#D0E7D2',
-        backgroundColor: "#D0E7D2",
-        // textAlign:'center'
+        backgroundColor: "#D0E7D2"
     },
     backButton: {
-        marginBottom: 70,
-        marginVertical: 50,
-        marginLeft: 12,
+        marginBottom: 100,
+        marginVertical: 20,
+        marginLeft: 3,
+        flexDirection: 'row',
         height: 30,
         width: 100,
         color: 'green',
-        flexDirection: 'row',
-
+        // borderRadius: 50,
+        // // width: 250,
+        // borderWidth: 2,
+        // borderColor: '#D8D9DA'
     },
     back: {
         paddingHorizontal: 9,
@@ -121,40 +138,55 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: '500',
         color: 'green',
-    },
-    env2: {
-        alignSelf: 'center',
-        height: 250,
-        width: 300,
+        // borderRadius: 10,
+        // // width: 250,
+        // borderWidth: 2,
+        // borderColor: '#07411B'
     },
     heading: {
-        fontSize: 25,
-        color: "#07411B",
-        alignSelf: "center",
-        fontWeight: '900'
+        // fontSize: 40,
+        // color: "#07411B",
+        // alignSelf: "center",
+        fontSize: 30,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        color: '#07411B',
+        fontWeight: '900',
+        // fontFamily:"Poppins"
     },
     inputWrapper: {
         alignItems: "center",
-        // marginLeft: 50,
+        marginLeft: 50,
         marginTop: 40,
     },
     inpText: {
-        color: "#34572F",
-        fontSize: 10,
+        // color: "#34572F",
+        // fontSize: 15,
         alignSelf: "flex-start",
-        marginTop: 14,
+        // marginTop: 14,
+        marginTop: 8,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        color: "rgba(52,87,47,1)",
+        // fontSize: "21px",
+        // lineHeight: "21px",
+        // fontFamily: "Poppins, sans-serif",
+        fontWeight: "700",
+        textAlign: "center",
     },
     input: {
         backgroundColor: "#D0E7D2",
-        width: 280,
-        // height:40,
-        alignSelf: "center",
-        height: 40,
-        borderRadius: 10,
+        // opacity:17,
+        width: 250,
+        alignSelf: "flex-start",
+        height: 45,
+        //   borderRadius: 10,
         marginTop: 8,
         paddingHorizontal: 15,
         paddingVertical: 5,
-        marginBottom: 3
+        marginBottom: 15,
+        borderRadius: 15
     },
     buttonWrapper: {
         alignItems: "center",
@@ -180,11 +212,9 @@ const styles = StyleSheet.create({
         marginTop: 25,
         fontSize: 15,
         marginBottom: 25,
+        fontWeight: '400'
     },
     login: {
-        alignSelf: "center",
-    },
-    signup: {
         alignSelf: "center",
         color: "green",
         marginTop: 25,
@@ -192,7 +222,6 @@ const styles = StyleSheet.create({
         marginBottom: 25,
         fontWeight: '400',
         textDecorationLine: 'underline'
-    }
+    },
 });
-
-export default Login;
+export default SignUp;

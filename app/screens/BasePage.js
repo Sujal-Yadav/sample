@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { NavigationProp } from '@react-navigation/native';
 
-const BasePage: React.FC<{ navigation: NavigationProp<any> }> = ({ navigation }) => {
+const BasePage = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Image source={require("../../assets/env1.png")} style={styles.env1} />

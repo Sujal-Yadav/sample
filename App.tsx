@@ -1,8 +1,5 @@
-import SignUpPage from "./app/screens/SignUp";
-import LogInPage from "./app/screens/Login";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import BasePage from "./app/screens/BasePage";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ForumPage from "./app/screens/ForumPage";
 import ProfilePage from "./app/screens/ProfilePage";
@@ -12,16 +9,17 @@ import SignUp from "./app/screens/SignUp";
 import { useEffect, useState } from "react";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH } from "./FirebaseConfig";
+import BasePage from "./app/screens/BasePage";
+import SurveyPage from "./app/screens/SurveyPage";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const MyTabs = () => {
-
+export function MyTabs() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="ForumPage" component={ForumPage} options={{ headerShown: false }}></Tab.Screen>
-      <Tab.Screen name="EventsPage" component={EventsPage} options={{ headerShown: false }}></Tab.Screen>
+    <Tab.Navigator>
       <Tab.Screen name="ProfilePage" component={ProfilePage} options={{ headerShown: false }}></Tab.Screen>
+      <Tab.Screen name="Forum Page" component={ForumPage} options={{ headerShown: true }}></Tab.Screen>
+      <Tab.Screen name="Events Page" component={EventsPage} options={{ headerShown: true }}></Tab.Screen>
     </Tab.Navigator>
   );
 };
@@ -38,31 +36,20 @@ export default function App() {
   }, []);
 
   return (
-
-    // <NavigationContainer>
-    //   <Stack.Navigator initialRouteName="BasePage">
-    //     {/* <Stack.Screen name="Main Page" component={BasePage} /> */}
-
-    //     {user ? <Stack.Screen name="MyTabs" component={MyTabs} options={{ headerShown: false }} /> : <Stack.Screen name="SignUp" component={BasePage} options={{ headerShown: true }} />}
-    //     {/* <Stack.Screen name="SignUp" options={{ headerShown: true }} component={SignUp} /> */}
-    //     {/* <Stack.Screen name="MyTabs" component={MyTabs} /> */}
-    //   </Stack.Navigator>
-    // </NavigationContainer>
-    // <ProfilePage/>
-
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={user ? 'Home' : 'SignUp'}>
+      <Stack.Navigator initialRouteName={user ? 'BasePage' : 'BasePage'}>
         {user ? (
           <Stack.Screen name="Home" component={MyTabs} options={{ headerShown: false }} />
         ) : (
           <>
             <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: true }} />
             <Stack.Screen name="Login" component={Login} options={{ headerShown: true }} />
+            <Stack.Screen name="BasePage" component={BasePage} options={{ headerShown: false }} />
+            <Stack.Screen name="SurveyPage" component={SurveyPage} options={{ headerShown: false }} />
+            <Stack.Screen name="Tabs" component={MyTabs} options={{ headerShown: false }} />
           </>
         )}
       </Stack.Navigator>
     </NavigationContainer>
-
-
   );
 }

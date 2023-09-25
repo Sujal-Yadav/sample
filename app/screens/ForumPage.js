@@ -14,7 +14,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const PostComponent = ({}) => {
+const PostComponent = ({username, caption}) => {
   return (
     <View style={styles.postContainer}>
       <View style={styles.postHeader}>
@@ -22,7 +22,7 @@ const PostComponent = ({}) => {
           source={require("../../assets/ria.png")}
           style={styles.profileImage}
         />
-        <Text style={styles.username}></Text>
+        <Text style={styles.username}>{username}</Text>
         <Entypo
           name="dots-three-vertical"
           size={24}
@@ -30,7 +30,7 @@ const PostComponent = ({}) => {
           style={styles.threeDots}
         />
       </View>
-      <Text style={styles.postCaption}></Text>
+      <Text style={styles.postCaption}>{caption}</Text>
       <View style={styles.postImage}>
         <Image
           source={require("../../assets/planting.jpg")}
@@ -65,44 +65,43 @@ const PostComponent = ({}) => {
 const data = [
 {
   id: 'id1',
-  username: 'Ria',
+  username: 'User Name 1',
   caption: 'For a better tomorrow , plant more trees today!',
   imgSource: '../../assets/plantig.png',
 },
 {
   id: 'id2',
-  username: 'Ria',
+  username: 'User Name 2',
   caption: 'For a better tomorrow , plant more trees today!',
-  imgSource: '../../assets/plantig.png',
+  imgSource: '../../assets/greenleaves1.jpg',
 },
 {
   id: 'id3',
-  username: 'Ria',
+  username: 'User Name 3',
   caption: 'For a better tomorrow , plant more trees today!',
   imgSource: '../../assets/plantig.png',
 },
 {
   id: 'id4',
-  username: 'Ria',
+  username: 'User Name 4',
   caption: 'For a better tomorrow , plant more trees today!',
-  imgSource: '../../assets/plantig.png',
+  imgSource: '../../assets/greenleaves1.jpg',
 },
 {
   id: 'id5',
-  username: 'Ria',
+  username: 'User Name 5',
   caption: 'For a bettkjnkjkjkjkuhjer tomorrow , plant more trees today!',
   imgSource: '../../assets/plantig.png',
 }];
 
 const ForumPage = () => {
   return (
-    <ScrollView style={styles.container}>
       <FlatList
         data={data}
         renderItem={({ item }) => <PostComponent username={item.username} caption={item.caption} />}
         keyExtractor={(item) => item.id}
+        style={styles.container}
       />
-    </ScrollView>
   );
 };
 
