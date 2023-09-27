@@ -6,20 +6,40 @@ import ProfilePage from "./app/screens/ProfilePage";
 import EventsPage from "./app/screens/EventsPage";
 import Login from "./app/screens/Login";
 import SignUp from "./app/screens/SignUp";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH } from "./FirebaseConfig";
 import BasePage from "./app/screens/BasePage";
 import SurveyPage from "./app/screens/SurveyPage";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 export function MyTabs() {
+  function solid(arg0: string) {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <Tab.Navigator>
-      <Tab.Screen name="ProfilePage" component={ProfilePage} options={{ headerShown: false }}></Tab.Screen>
-      <Tab.Screen name="Forum Page" component={ForumPage} options={{ headerShown: true }}></Tab.Screen>
-      <Tab.Screen name="Events Page" component={EventsPage} options={{ headerShown: true }}></Tab.Screen>
+      <Tab.Screen name="Forum" component={ForumPage} options={{
+        tabBarLabel: 'Forum',
+        tabBarIcon: ({ color, size }) => (
+          <Icon name="comments" size={size} color={color} /> // Use FontAwesome icon
+        ),
+      }}></Tab.Screen>
+      <Tab.Screen name="Events" component={EventsPage} options={{
+        tabBarLabel: 'Events',
+        tabBarIcon: ({ color, size }) => (
+          <Icon name="calendar" size={size} color={color} /> // Use FontAwesome icon
+        ),
+      }}></Tab.Screen>
+      <Tab.Screen name="Profile" component={ProfilePage} options={{
+        tabBarLabel: 'Profile',
+        tabBarIcon: ({ color, size }) => (
+          <Icon name="user" size={size} color={color} /> // Use FontAwesome icon
+        ),
+      }}></Tab.Screen>
     </Tab.Navigator>
   );
 };

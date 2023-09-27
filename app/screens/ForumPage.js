@@ -107,7 +107,6 @@ const ForumPage = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
     backgroundColor: "#F5F5F5",
   },
   postContainer: {

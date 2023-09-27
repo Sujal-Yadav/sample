@@ -1,4 +1,3 @@
-import { NavigationProp } from "@react-navigation/native";
 import React from "react";
 import {
   View,
@@ -16,6 +15,7 @@ import { FIREBASE_AUTH } from "../../FirebaseConfig";
 
 const percentage = 55;
 const points = 0;
+
 const ProfilePage = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
@@ -64,6 +64,7 @@ const ProfilePage = ({ navigation }) => {
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -71,13 +72,13 @@ const styles = StyleSheet.create({
   backButton: {
     marginBottom: 70,
     marginVertical: 50,
-    marginLeft: 12,
+    marginRight: 12,
     height: 30,
     width: 100,
     color: 'green',
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-end', // Align contents to the right
+    alignItems: 'center', // Vertically center the contents
   },
   back: {
     paddingHorizontal: 9,
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '500',
     color: 'green',
-    
+
 
   },
   add: {
