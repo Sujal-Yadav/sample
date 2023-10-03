@@ -24,18 +24,21 @@ export function MyTabs() {
     <Tab.Navigator>
       <Tab.Screen name="Forum" component={ForumPage} options={{
         tabBarLabel: 'Forum',
+        headerShown: false,
         tabBarIcon: ({ color, size }) => (
           <Icon name="comments" size={size} color={color} /> // Use FontAwesome icon
         ),
       }}></Tab.Screen>
       <Tab.Screen name="Events" component={EventsPage} options={{
         tabBarLabel: 'Events',
+        headerShown: false,
         tabBarIcon: ({ color, size }) => (
           <Icon name="calendar" size={size} color={color} /> // Use FontAwesome icon
         ),
       }}></Tab.Screen>
       <Tab.Screen name="Profile" component={ProfilePage} options={{
         tabBarLabel: 'Profile',
+        headerShown: false,
         tabBarIcon: ({ color, size }) => (
           <Icon name="user" size={size} color={color} /> // Use FontAwesome icon
         ),

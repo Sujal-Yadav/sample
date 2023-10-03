@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,41 +8,74 @@ import {
   Image,
 } from "react-native";
 import { NavigationProp } from '@react-navigation/native';
+import { ActivityIndicator } from "react-native";
+import * as Location from 'expo-location'
 
 const BasePage = ({ navigation }) => {
-  return (
-    <SafeAreaView style={styles.container}>
-      <Image source={require("../../assets/env1.png")} style={styles.env1} />
-      <View>
-        <Text style={styles.heading}>EcoSaathi</Text>
-        <Text style={styles.heading2}>Where Eco meets Social</Text>
-        <View style={styles.loginOption}>
-          <Text style={styles.logInText}>Already Have an account?</Text>
-          <TouchableOpacity style={styles.login} onPress={() => navigation.navigate('Login')}>
-            <Text style={styles.loginText2}>Log in</Text>
+
+  const [loading, setLoading] = useState(false)
+  const [location, setLocation] = useState(null)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync()
+      if (status !== 'granted') {
+        setError('Permission to access location was denied!')
+        return
+      }
+      let location = await Location.getCurrentPositionAsync({})
+      setLocation(location)
+    })();
+  }, [])
+
+  if (location) {
+    console.log(location)
+  }
+
+  if (loading) {
+    return (
+      <View style={styles.loadCircle}>
+        <ActivityIndicator size={'large'} color={'blue'} />
+      </View>
+    )
+  }
+  else {
+
+    return (
+      <SafeAreaView style={styles.container}>
+        <Image source={require("../../assets/env1.png")} style={styles.env1} />
+        <View>
+          <Text style={styles.heading}>EcoSaathi</Text>
+          <Text style={styles.heading2}>Where Eco meets Social</Text>
+          <View style={styles.loginOption}>
+            <Text style={styles.logInText}>Already Have an account?</Text>
+            <TouchableOpacity style={styles.login} onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.loginText2}>Log in</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.appButtons}>
+          <TouchableOpacity
+            style={styles.appButtonContainer1}
+            onPress={() => navigation.navigate("SignUp")}
+          >
+            <Text style={styles.appButtonText}>Sign up with email</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.appButtonContainer2}
+            onPress={() => navigation.navigate("SignUp")}
+          >
+            <Image
+              style={styles.buttonImageIconStyle}
+              source={require("../../assets/google.png")}
+            />
+            <Text style={styles.appButtonText2}>Sign up with Google</Text>
           </TouchableOpacity>
         </View>
-      </View>
-      <View style={styles.appButtons}>
-        <TouchableOpacity
-          style={styles.appButtonContainer1}
-          onPress={() => navigation.navigate("SignUp")}
-        >
-          <Text style={styles.appButtonText}>Sign up with email</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.appButtonContainer2}
-          onPress={() => navigation.navigate("SignUp")}
-        >
-          <Image
-            style={styles.buttonImageIconStyle}
-            source={require("../../assets/google.png")}
-          />
-          <Text style={styles.appButtonText2}>Sign up with Google</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  );
+      </SafeAreaView>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
@@ -127,6 +160,12 @@ const styles = StyleSheet.create({
     color: "#07411B",
     alignSelf: "center",
     fontWeight: "bold",
+  },
+  loadCircle: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    backgroundColor: "white",
   },
 });
 
